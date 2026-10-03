@@ -1,345 +1,78 @@
-<!DOCTYPE html>
-<html lang="ha" dir="ltr">
+<!doctype html>
+<html lang="ha">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matsalolin Android da Mafita</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Chosen Palette: Warm Neutrals (Stone/Sand) with Functional Accents -->
-
-    <!-- Application Structure Plan: 
-         1. Hero Section: Introduces the concept of Android health.
-         2. AI Assistant ?: A new dedicated section for real-time problem solving.
-         3. Problem Grid (Dashboard): A central hub displaying all major issues.
-         4. Dynamic Modal/Overlay: For detailed insights.
-         5. Advanced Section: "Factory Reset".
-         6. Footer: Conclusion.
-    -->
-
-    <style>
-        body { font-family: 'Noto Sans', sans-serif; }
-        
-        .custom-scroll::-webkit-scrollbar {
-            width: 8px;
-        }
-        .custom-scroll::-webkit-scrollbar-track {
-            background: #f1f1f4; 
-        }
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: #d6d3d1; 
-            border-radius: 4px;
-        }
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: #a8a29e; 
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 350px;
-        }
-        @media (max-width: 640px) {
-            .chart-container {
-                height: 250px;
-            }
-        }
-        
-        .shimmer {
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cajin Batirin 3.7V daga 5V</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .wire { stroke: #1e293b; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .pin { fill: #0f172a; }
+    .chip { fill: #1e293b; stroke: #334155; stroke-width: 2; }
+    .label { fill: #334155; font-size: 14px; font-weight: 700; }
+    .small { fill: #64748b; font-size: 12px; }
+    .flow { stroke: #f59e0b; stroke-width: 4; stroke-dasharray: 7 9; animation: flow 1.2s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -32; } }
+  </style>
 </head>
-<body class="bg-stone-50 text-stone-800 antialiased min-h-screen flex flex-col">
-
-    <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <span class="text-2xl">??</span>
-                <h1 class="text-xl font-bold tracking-tight text-stone-900">Jagoran Android</h1>
-            </div>
-            <nav>
-                <button onclick="scrollToSection('ai-assistant')" class="text-sm font-medium text-sky-600 hover:text-sky-700 transition-colors">? AI Taimako</button>
-                <button onclick="scrollToSection('problems')" class="ml-4 text-sm font-medium text-stone-600 hover:text-amber-600 transition-colors">Matsaloli</button>
-                <button onclick="scrollToSection('reset')" class="ml-4 text-sm font-medium text-stone-600 hover:text-red-600 transition-colors">Factory Reset</button>
-            </nav>
-        </div>
-    </header>
-
-    <main class="flex-grow">
-        <!-- Introduction -->
-        <section class="max-w-4xl mx-auto px-4 py-10 text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-stone-900 mb-4">Manyan Matsalolin Software na Android da Mafita</h2>
-            <p class="text-lg text-stone-600 leading-relaxed mb-6">
-                Waya tana daya daga cikin abubuwan da muke amfani da su kullum, amma tana iya samun matsaloli. 
-                Wannan shafin yana taimaka muku gane matsalar wayarku da kuma yadda za ku gyara ta da kanku cikin sau?i.
-            </p>
-        </section>
-
-        <!-- AI Assistant ? -->
-        <section id="ai-assistant" class="max-w-4xl mx-auto px-4 mb-16">
-            <div class="bg-gradient-to-br from-sky-50 to-white border border-sky-100 rounded-2xl shadow-sm p-6 md:p-8">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="bg-sky-500 text-white p-2 rounded-lg shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-sky-900">? AI Assistant na Android</h3>
-                        <p class="text-sm text-sky-600">Yi tambaya game da duk wata matsala da wayarka ke yi.</p>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <textarea id="aiInput" rows="3" class="w-full px-4 py-3 rounded-xl border border-sky-200 focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all outline-none text-stone-700 placeholder-stone-400" placeholder="Misali: Wayata tana zafi sosai idan ina caji, me zan yi?"></textarea>
-                    
-                    <div class="flex flex-wrap gap-2 mb-2">
-                        <button onclick="fillInput('Me ya sa baturin wayata yake saurin karewa?')" class="text-xs bg-white border border-sky-100 text-sky-700 px-3 py-1 rounded-full hover:bg-sky-100 transition-colors">?? Baturi</button>
-                        <button onclick="fillInput('Yadda zan gyara wayar da take nauyi?')" class="text-xs bg-white border border-sky-100 text-sky-700 px-3 py-1 rounded-full hover:bg-sky-100 transition-colors">?? Nauyi</button>
-                        <button onclick="fillInput('WhatsApp na ya daina budewa, me zan yi?')" class="text-xs bg-white border border-sky-100 text-sky-700 px-3 py-1 rounded-full hover:bg-sky-100 transition-colors">?? App Crash</button>
-                    </div>
-
-                    <button id="aiSubmitBtn" onclick="askGemini()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-sky-200 transition-all flex items-center justify-center gap-2">
-                        <span>? Tambayi AI</span>
-                    </button>
-                </div>
-
-                <!-- AI Response Area -->
-                <div id="aiResponse" class="hidden mt-8 border-t border-sky-100 pt-6 animate-fade-in">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="flex h-2 w-2 rounded-full bg-sky-500"></span>
-                        <h4 class="text-sm font-bold text-sky-900 uppercase tracking-wider">Amsar AI ?</h4>
-                    </div>
-                    <div id="aiTextOutput" class="text-stone-700 leading-relaxed prose prose-stone max-w-none">
-                        <!-- Response will appear here -->
-                    </div>
-                    <div id="aiLoading" class="hidden space-y-3">
-                        <div class="h-4 shimmer rounded w-3/4"></div>
-                        <div class="h-4 shimmer rounded w-5/6"></div>
-                        <div class="h-4 shimmer rounded w-1/2"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Problems Grid -->
-        <section id="problems" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <div class="mb-6">
-                <p class="text-stone-500 text-sm font-medium uppercase tracking-wide">Jerin Matsaloli</p>
-                <div class="h-1 w-20 bg-amber-500 rounded mt-1"></div>
-            </div>
-            <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-        </section>
-
-        <!-- Advanced Section -->
-        <section id="reset" class="bg-stone-200 py-12 border-t border-stone-300">
-            <div class="max-w-4xl mx-auto px-4">
-                <div class="bg-white rounded-xl shadow-xl overflow-hidden">
-                    <div class="bg-red-50 px-6 py-4 border-b border-red-100 flex items-center">
-                        <span class="text-2xl mr-3">??</span>
-                        <h3 class="text-xl font-bold text-red-800">Matakin ?arshe: Factory Reset</h3>
-                    </div>
-                    <div class="p-6 md:p-8">
-                        <p class="text-stone-700 mb-4">Idan dukkan hanyoyin da aka gwada sun kasa, za a iya dawo da wayar kamar sabuwa.</p>
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div class="space-y-4">
-                                <h4 class="font-semibold text-stone-900">Kafin ka yi Reset:</h4>
-                                <ul class="space-y-2">
-                                    <li class="flex items-start"><span class="text-emerald-500 mr-2">?</span><span class="text-sm text-stone-600">Yi ajiyar bayanai (Backup).</span></li>
-                                    <li class="flex items-start"><span class="text-emerald-500 mr-2">?</span><span class="text-sm text-stone-600">Tabbatar baturin ya kai 50%.</span></li>
-                                </ul>
-                            </div>
-                            <div class="bg-stone-50 p-4 rounded-lg border border-stone-200 text-center">
-                                <div class="text-4xl font-bold text-stone-300 mb-2">100%</div>
-                                <div class="w-full bg-stone-200 rounded-full h-2.5 mt-2"><div class="bg-red-500 h-2.5 rounded-full" style="width: 100%"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-stone-900 text-stone-400 py-8 text-center">
-        <p class="text-sm text-stone-600">� 2026 Android Guide Hausa.</p>
-    </footer>
-
-    <!-- MODAL OVERLAY (Details) -->
-    <div id="detailModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div id="modalBackdrop" class="fixed inset-0 bg-stone-900 bg-opacity-75 transition-opacity"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            <div class="relative inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl w-full">
-                <div id="modalHeader" class="bg-stone-50 px-6 py-4 border-b border-stone-100 flex justify-between items-center">
-                    <h3 class="text-lg leading-6 font-bold text-stone-900 flex items-center gap-2" id="modalTitle"></h3>
-                    <button onclick="closeModal()" class="text-stone-400 hover:text-stone-600 bg-stone-200 rounded-full p-1">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-                <div class="px-6 py-6 sm:p-8 overflow-y-auto max-h-[80vh] custom-scroll">
-                    <div class="flex flex-col lg:flex-row gap-8">
-                        <div class="flex-1 space-y-6">
-                            <div>
-                                <h4 class="text-sm font-bold text-amber-600 uppercase tracking-wider mb-2">? Dalilai</h4>
-                                <ul id="modalCauses" class="list-disc pl-5 space-y-1 text-stone-700"></ul>
-                            </div>
-                            <hr class="border-stone-100">
-                            <div>
-                                <h4 class="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-2">? Mafita</h4>
-                                <ul id="modalSolutions" class="space-y-3"></ul>
-                            </div>
-                        </div>
-                        <div class="lg:w-1/2 bg-stone-50 rounded-xl p-4 border border-stone-100">
-                            <div class="chart-container"><canvas id="detailChart"></canvas></div>
-                            <p id="chartCaption" class="text-center text-xs text-stone-500 mt-4 italic"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <header class="border-b border-slate-800 bg-slate-950/90 sticky top-0 z-10 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="#sashe" class="flex items-center gap-3 font-bold"><span class="grid place-items-center w-9 h-9 rounded-xl bg-amber-400 text-slate-950">⚡</span> Cajin 3.7V</a>
+      <a href="#jerin-kaya" class="text-sm text-amber-300 hover:text-amber-200">Abubuwan da ake bukata ↓</a>
     </div>
+  </header>
 
-    <script>
-        const apiKey = ""; // Set by environment
-        const androidProblems = [
-            {
-                id: 'battery', title: 'Saurin Karewar Baturi', icon: '??',
-                summary: 'Baturi yana karewa da wuri koda ba a amfani da wayar sosai.',
-                causes: ['Manhajoji a boye.', 'Hasken allo ya yi yawa.', 'Barin GPS/Bluetooth a kunne.'],
-                solutions: ['Rage hasken allo.', 'Kashe GPS idan ba a amfani da shi.', 'Kunna Battery Saver.'],
-                chartType: 'pie', chartData: { labels: ['Allo', 'Apps', 'System', 'Sauran'], data: [40, 30, 20, 10], caption: 'Abubuwan da ke cinye baturi.' }
-            },
-            {
-                id: 'performance', title: 'Wayar Tana Nauyi', icon: '??',
-                summary: 'Waya tana daskarewa ko tafiyar hawainiya.',
-                causes: ['Cikar RAM.', 'Tsohon software.', 'Cache data da ta yi yawa.'],
-                solutions: ['Goge Cache.', 'Cire apps da ba a amfani da su.', 'Restart waya.'],
-                chartType: 'doughnut', chartData: { labels: ['RAM a amfani', 'RAM ofe'], data: [85, 15], caption: 'Yadda RAM ke cika.' }
-            }
-            // ... more problems can be added here
-        ];
+  <main>
+    <section class="max-w-6xl mx-auto px-5 pt-14 pb-10 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="inline-flex rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-bold tracking-wider text-amber-300">LI-ION • 1 CELL • 4.2V CC/CV</p>
+        <h1 class="mt-5 text-4xl sm:text-5xl font-black tracking-tight">Yadda za ka caji batirin <span class="text-amber-400">3.7V</span> da wutar <span class="text-sky-400">5V</span></h1>
+        <p class="mt-5 text-lg leading-8 text-slate-300">Kar a haɗa batirin lithium kai tsaye zuwa 5V. Yi amfani da <strong class="text-white">TP4056</strong>—circuit na caji mai sarrafa halin yanzu da ƙarfin lantarki—domin ya caje cell ɗaya lafiya zuwa 4.2V.</p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#sashe" class="rounded-xl bg-amber-400 px-5 py-3 font-bold text-slate-950 hover:bg-amber-300">Duba circuit ɗin</a>
+          <a href="#lissafi" class="rounded-xl border border-slate-700 px-5 py-3 font-bold text-slate-200 hover:bg-slate-800">Zaɓi caji mai kyau</a>
+        </div>
+      </div>
+      <aside class="rounded-3xl border border-rose-400/20 bg-rose-400/10 p-6 shadow-2xl shadow-rose-950/30">
+        <div class="flex gap-4"><span class="text-3xl">⚠️</span><div><h2 class="font-bold text-rose-200">Muhimmin gargadi</h2><p class="mt-2 text-sm leading-6 text-rose-100/85">Wannan circuit na <b>cell lithium-ion 3.7V guda ɗaya</b> ne kawai (4.2V lokacin da ya cika). Kada a yi amfani da shi ga batirin 7.4V/2S, batirin da ya kumbura, ko cell mara kariya ba tare da kariyar BMS ba.</p></div></div>
+      </aside>
+    </section>
 
-        function initApp() {
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = androidProblems.map(p => `
-                <div class="bg-white rounded-xl shadow-sm border border-stone-100 hover:shadow-lg transition-all p-6 cursor-pointer group" onclick="openModal('${p.id}')">
-                    <span class="text-4xl block mb-4 group-hover:scale-110 transition-transform">${p.icon}</span>
-                    <h3 class="text-lg font-bold text-stone-900 mb-2">${p.title}</h3>
-                    <p class="text-stone-600 text-sm line-clamp-2">${p.summary}</p>
-                </div>
-            `).join('');
-        }
+    <section id="sashe" class="bg-slate-100 py-14 text-slate-900">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="flex flex-wrap gap-4 items-end justify-between mb-7"><div><p class="text-sm font-bold uppercase tracking-widest text-sky-700">Tsarin haɗawa</p><h2 class="text-3xl font-black">Circuit mai sauƙi da TP4056</h2></div><p class="max-w-md text-sm text-slate-600">Ana iya amfani da module TP4056 da ke da tashoshin <b>B+/B−</b> da <b>OUT+/OUT−</b>. Wannan shi ne mafi sauƙin hanyar ginawa.</p></div>
+        <div class="rounded-3xl bg-white p-4 sm:p-8 shadow-xl shadow-slate-300/60 border border-slate-200 overflow-x-auto">
+          <svg viewBox="0 0 1000 420" class="min-w-[760px] w-full" role="img" aria-label="Tsarin haɗin 5V USB, TP4056, batirin lithium-ion, da load">
+            <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" /></marker></defs>
+            <rect x="25" y="130" width="155" height="150" rx="18" fill="#e0f2fe" stroke="#38bdf8" stroke-width="3"/><text x="102" y="178" text-anchor="middle" class="label">USB / Adaptor</text><text x="102" y="202" text-anchor="middle" class="label">5V</text><text x="102" y="235" text-anchor="middle" class="small">+5V da GND</text>
+            <path d="M180 165 H330" class="wire"/><path d="M180 245 H330" class="wire"/><text x="225" y="154" class="small">+5V</text><text x="225" y="266" class="small">GND</text>
+            <rect x="330" y="85" width="300" height="245" rx="20" class="chip"/><text x="480" y="135" text-anchor="middle" fill="white" font-size="25" font-weight="800">TP4056 MODULE</text><text x="352" y="176" fill="#7dd3fc" font-size="15" font-weight="700">IN+  ●</text><text x="352" y="260" fill="#7dd3fc" font-size="15" font-weight="700">IN−  ●</text><text x="545" y="176" fill="#fcd34d" font-size="15" font-weight="700">● B+</text><text x="545" y="260" fill="#fcd34d" font-size="15" font-weight="700">● B−</text><text x="545" y="285" fill="#86efac" font-size="13" font-weight="700">● OUT+</text><text x="545" y="308" fill="#86efac" font-size="13" font-weight="700">● OUT−</text><text x="422" y="218" text-anchor="middle" fill="#cbd5e1" font-size="14">Cajin CC/CV zuwa 4.2V</text>
+            <path d="M630 165 H755" class="wire"/><path d="M630 245 H755" class="wire"/><text x="672" y="154" class="small">B+</text><text x="672" y="266" class="small">B−</text>
+            <rect x="755" y="130" width="150" height="150" rx="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/><text x="830" y="178" text-anchor="middle" class="label">Li-ion cell</text><text x="830" y="204" text-anchor="middle" class="label">3.7V (4.2V)</text><text x="830" y="236" text-anchor="middle" class="small">Baturi guda 1</text>
+            <path d="M196 165 H315" class="flow" marker-end="url(#arrow)"/><path d="M645 165 H740" class="flow" marker-end="url(#arrow)"/>
+            <path d="M630 285 V370 H685" class="wire"/><path d="M630 308 V395 H685" class="wire"/><rect x="685" y="345" width="110" height="70" rx="12" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/><text x="740" y="374" text-anchor="middle" class="label">LOAD</text><text x="740" y="395" text-anchor="middle" class="small">OUT +/−</text><text x="815" y="356" class="small">Yi load daga OUT+/OUT−</text>
+          </svg>
+        </div>
+        <div class="mt-6 grid md:grid-cols-3 gap-4">
+          <div class="rounded-2xl bg-sky-50 border border-sky-100 p-5"><b>1. Shigarwa</b><p class="mt-2 text-sm text-slate-600">Haɗa 5V USB zuwa <b>IN+</b>, sannan ground zuwa <b>IN−</b>.</p></div>
+          <div class="rounded-2xl bg-amber-50 border border-amber-100 p-5"><b>2. Batiri</b><p class="mt-2 text-sm text-slate-600">Haɗa plus na batiri zuwa <b>B+</b>, minus kuma zuwa <b>B−</b>.</p></div>
+          <div class="rounded-2xl bg-emerald-50 border border-emerald-100 p-5"><b>3. Na'ura</b><p class="mt-2 text-sm text-slate-600">Idan module ɗin na da protection, haɗa na'urarka zuwa <b>OUT+</b> da <b>OUT−</b>.</p></div>
+        </div>
+      </div>
+    </section>
 
-        function fillInput(text) {
-            document.getElementById('aiInput').value = text;
-        }
-
-        async function askGemini() {
-            const query = document.getElementById('aiInput').value;
-            if (!query) return;
-
-            const responseDiv = document.getElementById('aiResponse');
-            const outputText = document.getElementById('aiTextOutput');
-            const loading = document.getElementById('aiLoading');
-            const btn = document.getElementById('aiSubmitBtn');
-
-            responseDiv.classList.remove('hidden');
-            outputText.innerHTML = '';
-            loading.classList.remove('hidden');
-            btn.disabled = true;
-            btn.classList.add('opacity-50');
-
-            const systemPrompt = "Kai masani ne kan matsalolin wayoyin Android. Ba da amsoshi a harshen Hausa kawai. Yi amfani da jerin gwanon maki (bullet points) wajen bayyana mafita. Kasance mai gajeren bayani amma mai amfani.";
-
-            let retries = 0;
-            const maxRetries = 5;
-
-            async function fetchWithRetry() {
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: query }] }],
-                            systemInstruction: { parts: [{ text: systemPrompt }] }
-                        })
-                    });
-
-                    if (!response.ok) throw new Error('API Error');
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text;
-                } catch (error) {
-                    if (retries < maxRetries) {
-                        retries++;
-                        const delay = Math.pow(2, retries) * 500;
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        return fetchWithRetry();
-                    }
-                    throw error;
-                }
-            }
-
-            try {
-                const text = await fetchWithRetry();
-                loading.classList.add('hidden');
-                // Simple markdown-to-html conversion for bold and lists
-                const formatted = text
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/^\s*[\-\*]\s*(.*)$/gm, '<li class="ml-4 mb-2">� $1</li>')
-                    .replace(/\n/g, '<br>');
-                
-                outputText.innerHTML = formatted;
-            } catch (error) {
-                loading.classList.add('hidden');
-                outputText.innerHTML = '<p class="text-red-500">Yi hakuri, an samu matsala wajen sadarwa da AI. Da fatan a sake gwadawa an jima.</p>';
-            } finally {
-                btn.disabled = false;
-                btn.classList.remove('opacity-50');
-            }
-        }
-
-        let currentChart = null;
-        function openModal(id) {
-            const p = androidProblems.find(x => x.id === id);
-            document.getElementById('modalTitle').innerHTML = `${p.icon} ${p.title}`;
-            document.getElementById('modalCauses').innerHTML = p.causes.map(c => `<li>${c}</li>`).join('');
-            document.getElementById('modalSolutions').innerHTML = p.solutions.map(s => `<li class="bg-emerald-50 p-2 rounded">? ${s}</li>`).join('');
-            document.getElementById('detailModal').classList.remove('hidden');
-            renderChart(p);
-        }
-
-        function closeModal() { document.getElementById('detailModal').classList.add('hidden'); }
-
-        function renderChart(p) {
-            const ctx = document.getElementById('detailChart').getContext('2d');
-            if (currentChart) currentChart.destroy();
-            currentChart = new Chart(ctx, {
-                type: p.chartType,
-                data: {
-                    labels: p.chartData.labels,
-                    datasets: [{ data: p.chartData.data, backgroundColor: ['#d97706', '#059669', '#2563eb', '#78716c'] }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-            document.getElementById('chartCaption').innerText = p.chartData.caption;
-        }
-
-        function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-
-        window.onload = initApp;
-    </script>
+    <section id="jerin-kaya" class="max-w-6xl mx-auto px-5 py-14 grid lg:grid-cols-2 gap-10">
+      <div><p class="text-sm font-bold uppercase tracking-widest text-amber-300">Jerin kaya</p><h2 class="mt-2 text-3xl font-black">Abin da za ka tanada</h2><ul class="mt-6 space-y-3 text-slate-300"><li class="flex gap-3"><span class="text-amber-400">01</span><span><b class="text-white">TP4056 module mai protection</b> (DW01A + 8205A idan akwai).</span></li><li class="flex gap-3"><span class="text-amber-400">02</span><span><b class="text-white">Batirin Li-ion 3.7V</b> guda ɗaya, misali 18650 mai inganci.</span></li><li class="flex gap-3"><span class="text-amber-400">03</span><span><b class="text-white">5V USB adapter</b> mai iya bayar da isasshen current.</span></li><li class="flex gap-3"><span class="text-amber-400">04</span><span>Waya, switch, da fuse (na zaɓi amma yana da kyau).</span></li></ul></div>
+      <div id="lissafi" class="rounded-3xl bg-slate-900 border border-slate-700 p-7"><p class="text-sm font-bold uppercase tracking-widest text-sky-300">Lissafin current</p><h2 class="mt-2 text-2xl font-black">Zaɓi cajin da ya dace</h2><label for="capacity" class="block mt-6 text-sm font-medium text-slate-300">Ƙarfin batiri (mAh)</label><input id="capacity" type="number" value="2000" min="100" step="100" class="mt-2 w-full rounded-xl bg-slate-800 border border-slate-600 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"/><div class="mt-5 rounded-2xl bg-slate-800 p-5"><p class="text-sm text-slate-400">Shawarwarin caji (kimanin 0.5C)</p><p id="current" class="mt-1 text-3xl font-black text-amber-400">1000 mA</p><p id="note" class="mt-2 text-sm leading-6 text-slate-300">Ga 2000mAh, 1A ya dace idan cell ɗin ya amince.</p></div><p class="mt-4 text-xs leading-5 text-slate-400">Ka duba datasheet na batirinka. Kar a wuce current ɗin da masana'anta ta yarda da shi; ƙaramin current ya fi sanyi kuma ya fi aminci.</p></div>
+    </section>
+  </main>
+  <footer class="border-t border-slate-800 py-8 text-center text-sm text-slate-400">A koyaushe a kula da caji. Kada a bar batirin lithium yana caji ba tare da kulawa ba.</footer>
+  <script>
+    const capacity = document.getElementById('capacity'); const current = document.getElementById('current'); const note = document.getElementById('note');
+    function updateCurrent() { const mah = Math.max(100, Number(capacity.value) || 0); const ma = Math.min(1000, Math.round((mah / 2) / 50) * 50); current.textContent = `${ma} mA`; note.textContent = `Ga ${mah}mAh, ${ma}mA (kimanin 0.5C, an takaita zuwa 1A) shawara ce ta farko—tabbatar da datasheet.`; }
+    capacity.addEventListener('input', updateCurrent); updateCurrent();
+  </script>
 </body>
 </html>
